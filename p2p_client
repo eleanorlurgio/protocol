@@ -20,7 +20,7 @@ def ClientSend(ip, port):
     # Create a UDP socket
     UDP_IP_ADDRESS = ip
     UDP_PORT_NO = port
-    Message = str.encode("Hello, Server")
+    Message = str.encode("data")
 
     # create a socket with a 1s timeout.
     clientSock=socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
@@ -38,7 +38,7 @@ def ClientSend(ip, port):
             ##get the response & extract data
             ##
             data = clientSock.recv(1024)
-            print ('received "%s"' % data)
+            print ('CLIENT: received "%s"' % data)
         except socket.timeout as inst:
             ## handle timeouts
             print('Request timed out')
@@ -65,11 +65,11 @@ def ClientReceive(ip, port):
         # Capitalize the message from the client
         message = message.upper()
         # If rand is less is than 4, we consider the packet lost and do not respond
-        if rand < 4:
-            print(str(message)+" timing out")
-            continue
+        # if rand < 4:
+        #     print(str(message)+" timing out")
+        #     continue
         # Otherwise, the server responds
-        print("Sending message: "+str(message))
+        print("                                     SERVER: "+str(message))
         serverSocket.sendto(message, address)
 
 
