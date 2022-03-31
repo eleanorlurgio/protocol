@@ -1,4 +1,4 @@
-# p2p_client.py>
+# p2p.py>
 
 import random
 from socket import *
