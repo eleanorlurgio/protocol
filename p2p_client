@@ -1,0 +1,82 @@
+# UDPPingerServer.py
+# We will need the following module to generate randomized lost packets
+import random
+from socket import *
+from email import message
+import sys
+from threading import Thread
+import socket
+
+# def InitialiseClient():
+
+
+# def InitialiseServer():
+
+
+def ClientSend(ip, port):
+    # UDPPingerClient.py
+    # We will need the following module to generate randomized lost packets
+
+    # Create a UDP socket
+    UDP_IP_ADDRESS = ip
+    UDP_PORT_NO = port
+    Message = str.encode("Hello, Server")
+
+    # create a socket with a 1s timeout.
+    clientSock=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    clientSock.settimeout(1.0)
+
+    for i in range(0,10):
+        # Send data
+        print ('Ping %d %s' % (i,Message))
+        try:
+            ## sent the Message using the clientSock
+            sent=clientSock.sendto(Message, (UDP_IP_ADDRESS, UDP_PORT_NO))
+            # Receive response
+            print ('waiting to receive')
+            ##get the response & extract data
+            ##
+            data = clientSock.recv(1024)
+            print ('received "%s"' % data)
+        except socket.timeout as inst:
+            ## handle timeouts
+            print('Request timed out')
+    print ('closing socket')
+    ##close the socket
+    clientSock.close()
+
+# Listen for incoming requests
+def ClientReceive(ip, port):
+    # UDPPingerServer.py
+    # We will need the following module to generate randomized lost packets
+
+    # Create a UDP socket
+    # Notice the use of SOCK_DGRAM for UDP packets
+    serverSocket = socket(AF_INET, SOCK_DGRAM)
+    # Assign IP address and port number to socket
+    serverSocket.bind(('', port))
+
+    while True:
+        # Generate random number in the range of 0 to 10
+        rand = random.randint(0, 10)
+        # Receive the client packet along with the address it is coming from
+        message, address = serverSocket.recvfrom(1024)
+        # Capitalize the message from the client
+        message = message.upper()
+        # If rand is less is than 4, we consider the packet lost and do not respond
+        if rand < 4:
+            print(str(message)+" timing out")
+            continue
+        # Otherwise, the server responds
+        print("Sending message: "+str(message))
+        serverSocket.sendto(message, address)
+
+
+# if __name__ == '__main__':
+#     Thread(target = ClientSend).start()
+#     Thread(target = ClientReceive).start()
+
+if __name__ == '__main__':
+    Thread(target = ClientSend, args=('127.0.0.1', 12000)).start()
+    Thread(target = ClientReceive, args=('127.0.0.1', 12000)).start()
