@@ -1,5 +1,3 @@
-# UDPPingerServer.py
-# We will need the following module to generate randomized lost packets
 import random
 from socket import *
 from email import message
@@ -9,73 +7,61 @@ import socket
 
 # def InitialiseClient():
 
-
 # def InitialiseServer():
 
-
 def ClientSend(ip, port):
-    # UDPPingerClient.py
-    # We will need the following module to generate randomized lost packets
-
     # Create a UDP socket
     UDP_IP_ADDRESS = ip
     UDP_PORT_NO = port
-    Message = str.encode("data")
 
-    # create a socket with a 1s timeout.
+    # Request message from user client
+    Message = str.encode("request photo")
+
+    # Create a socket with a 1s timeout
     clientSock=socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 
     clientSock.settimeout(1.0)
 
     for i in range(0,10):
-        # Send data
-        print ('Ping %d %s' % (i,Message))
+        # Send data to fridge client
+        print ('Ping %d %s' % (i,Message.decode()))
+
         try:
-            ## sent the Message using the clientSock
+            # Send the message using the clientSock
             sent=clientSock.sendto(Message, (UDP_IP_ADDRESS, UDP_PORT_NO))
             # Receive response
             print ('waiting to receive')
-            ##get the response & extract data
-            ##
+
+            # Get the response & extract data
             data = clientSock.recv(1024)
-            print ('CLIENT: received "%s"' % data)
+            print ('CLIENT: received "%s"' % data.decode())
         except socket.timeout as inst:
-            ## handle timeouts
+            # Handle timeouts
             print('Request timed out')
     print ('closing socket')
-    ##close the socket
+    # Close the socket
     clientSock.close()
 
 # Listen for incoming requests
 def ClientReceive(ip, port):
-    # UDPPingerServer.py
-    # We will need the following module to generate randomized lost packets
-
     # Create a UDP socket
-    # Notice the use of SOCK_DGRAM for UDP packets
+    # Use of SOCK_DGRAM for UDP packets
     serverSocket = socket.socket(family=AF_INET, type=SOCK_DGRAM)
+
     # Assign IP address and port number to socket
     serverSocket.bind((ip, port))
 
     while True:
-        # Generate random number in the range of 0 to 10
-        rand = random.randint(0, 10)
         # Receive the client packet along with the address it is coming from
         message, address = serverSocket.recvfrom(1024)
-        # Capitalize the message from the client
-        message = message.upper()
-        # If rand is less is than 4, we consider the packet lost and do not respond
-        # if rand < 4:
-        #     print(str(message)+" timing out")
-        #     continue
-        # Otherwise, the server responds
-        print("                                     SERVER: "+str(message))
+
+        # Set message to the data to be sent back
+        message = str.encode("PHOTO.jpeg")
+
+        # The server responds
+        print("                                     SERVER: "+str(message.decode()))
         serverSocket.sendto(message, address)
 
-
-# if __name__ == '__main__':
-#     Thread(target = ClientSend).start()
-#     Thread(target = ClientReceive).start()
 
 if __name__ == '__main__':
     Thread(target = ClientSend, args=('127.0.0.1', 12000)).start()

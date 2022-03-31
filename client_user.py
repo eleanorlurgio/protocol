@@ -7,7 +7,7 @@ import socket
 # Create a UDP socket
 UDP_IP_ADDRESS = "127.0.0.1"
 UDP_PORT_NO = 12000
-Message = b"Hello, Server"
+Message = "Hello, Server"
 
 # create a socket with a 1s timeout.
 clientSock=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
