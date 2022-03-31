@@ -23,7 +23,7 @@ def ClientSend(ip, port):
     Message = str.encode("Hello, Server")
 
     # create a socket with a 1s timeout.
-    clientSock=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    clientSock=socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 
     clientSock.settimeout(1.0)
 
@@ -53,9 +53,9 @@ def ClientReceive(ip, port):
 
     # Create a UDP socket
     # Notice the use of SOCK_DGRAM for UDP packets
-    serverSocket = socket(AF_INET, SOCK_DGRAM)
+    serverSocket = socket.socket(family=AF_INET, type=SOCK_DGRAM)
     # Assign IP address and port number to socket
-    serverSocket.bind(('', port))
+    serverSocket.bind((ip, port))
 
     while True:
         # Generate random number in the range of 0 to 10
