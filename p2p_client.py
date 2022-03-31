@@ -1,3 +1,5 @@
+# p2p_client.py>
+
 import random
 from socket import *
 from email import message
@@ -63,6 +65,6 @@ def ClientReceive(ip, port):
         serverSocket.sendto(message, address)
 
 
-if __name__ == '__main__':
+def OpenConnection():
     Thread(target = ClientSend, args=('127.0.0.1', 12000)).start()
     Thread(target = ClientReceive, args=('127.0.0.1', 12000)).start()
