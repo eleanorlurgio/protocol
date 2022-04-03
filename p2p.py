@@ -25,7 +25,7 @@ def ClientSend(ip, port):
     clientSock.settimeout(1.0)
 
     for i in range(0,10):
-        # Send data to fridge client
+        # Send data to client
         print ('Ping %d %s' % (i,Message.decode()))
 
         try:
@@ -65,6 +65,6 @@ def ClientReceive(ip, port):
         serverSocket.sendto(message, address)
 
 
-def OpenConnection():
-    Thread(target = ClientSend, args=('127.0.0.1', 12000)).start()
-    Thread(target = ClientReceive, args=('127.0.0.1', 12000)).start()
+def OpenConnection(port):
+    Thread(target = ClientSend, args=('127.0.0.1', port)).start()
+    Thread(target = ClientReceive, args=('127.0.0.1', port)).start()
