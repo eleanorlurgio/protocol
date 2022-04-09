@@ -24,12 +24,12 @@ def ClientSend(destination_IP, destination_port):
 
     # Create a socket with a 1s timeout
     clientSock=socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-    try:
-        clientSock.connect((UDP_IP_ADDRESS, UDP_PORT_NO))
-    except e:
-        print("HereEeeeeeeeee")
-        print(e)
-    print(clientSock)
+    # try:
+    #     clientSock.connect((UDP_IP_ADDRESS, UDP_PORT_NO))
+    # except e:
+    #     print("HereEeeeeeeeee")
+    #     print(e)
+    # print(clientSock)
     clientSock.settimeout(1.0)
 
 
@@ -38,7 +38,7 @@ def ClientSend(destination_IP, destination_port):
 
     while True:
          # Send the message using the clientSock
-        clientSock.send(Message)
+        clientSock.sendto(Message, (UDP_IP_ADDRESS, UDP_PORT_NO))
 
         # Receive response
         print ('waiting to receive')
