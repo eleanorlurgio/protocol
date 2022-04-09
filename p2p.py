@@ -48,14 +48,14 @@ def ClientSend(destination_IP, destination_port):
 
     message = data[0]
     address = data[1]
-    print('CLIENT: received "%s"' % message.decode())
+    print('client received "%s"' % message.decode())
 
     # Close the socket
     print('closing socket')
     clientSock.close()
 
 # Listen for incoming requests
-def ClientReceive(source_IP, source_port):
+def ClientReceive(username, source_IP, source_port):
     # Create a UDP socket with use of SOCK_DGRAM for UDP packets
     serverSocket = socket.socket(family=AF_INET, type=SOCK_DGRAM)
 
@@ -72,7 +72,7 @@ def ClientReceive(source_IP, source_port):
         messageA = str.encode("PHOTO.jpeg")
 
         # The server responds
-        print("                                     SERVER: "+str(messageA.decode()))
+        print("                                      "+ str(username) + ": " +str(messageA.decode()))
         serverSocket.sendto(messageA, address)
 
 def Header():
@@ -85,6 +85,6 @@ def Packet(buffer, header, message):
     
 
 # The connection is defined by a tuple (source IP, source port, destination IP, destination port)
-def OpenConnection(source_IP, source_port, destination_IP, destination_port):
-    Thread(target = ClientReceive, args=(source_IP, source_port)).start()
+def OpenConnection(username, source_IP, source_port, destination_IP, destination_port):
     Thread(target = ClientSend, args=(destination_IP, destination_port)).start()
+    Thread(target = ClientReceive, args=(username, source_IP, source_port)).start()

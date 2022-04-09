@@ -1,6 +1,7 @@
 from p2p import *
 
 if __name__ == '__main__':
+	username = str(input("Enter your username: "))
 	# Set IP address to local IP address
 	# ip = socket.gethostbyname(socket.gethostname())
 	source_IP = '0.0.0.0'
@@ -8,4 +9,4 @@ if __name__ == '__main__':
 	destination_IP = socket.gethostbyname(socket.gethostname())
 	destination_port = 12500
 	# port = int(input("Connect to which port number: "))
-	OpenConnection(source_IP, source_port, destination_IP, destination_port)
+	OpenConnection(username, source_IP, source_port, destination_IP, destination_port)
