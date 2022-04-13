@@ -7,6 +7,7 @@ import sys
 from threading import Thread
 import socket
 from time import sleep, time
+import cv2
 
 BUFFER_SIZE = 1024
 
