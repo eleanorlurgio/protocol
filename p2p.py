@@ -21,10 +21,10 @@ def ClientSend(destination_IP, destination_port):
     # Message = str.encode("request photo")
 
     # Read image
-    my_img = cv2.imread("pixil-frame-0.png", cv2.IMREAD_GRAYSCALE)
-    print(my_img)
-    cv2.imshow('My image', my_img)
-    cv2.waitKey(0)
+    my_img = cv2.imread("image_black.png", cv2.IMREAD_GRAYSCALE)
+    # print(my_img)
+    # cv2.imshow('My image', my_img)
+    # cv2.waitKey(0)
 
     # sleep(1000)
 
@@ -58,7 +58,7 @@ def ClientSend(destination_IP, destination_port):
 
     img = data[0]
     address = data[1]
-    print('client received "%s"' % img)
+    print('client received: ' + str(img))
 
     # Close the socket
     print('closing socket')
@@ -79,7 +79,7 @@ def ClientReceive(username, source_IP, source_port):
         address = connection[1]
 
         # Set message to the data to be sent back
-        my_img = cv2.imread("pixil-frame-0.png", cv2.IMREAD_GRAYSCALE)
+        my_img = cv2.imread("image_white.png", cv2.IMREAD_GRAYSCALE)
 
         # The server responds
         print("                                      "+ str(username) + ": " + str(my_img))
