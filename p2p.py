@@ -7,7 +7,7 @@ import sys
 from threading import Thread
 import socket
 from time import sleep, time
-import cv2
+from cv2 import cv2
 
 BUFFER_SIZE = 1024
 
@@ -18,18 +18,27 @@ def ClientSend(destination_IP, destination_port):
     UDP_PORT_NO = destination_port
 
     # Request message from user client
-    Message = str.encode("request photo")
+    # Message = str.encode("request photo")
+
+    # Read image
+    my_img = cv2.imread("pixil-frame-0.png", cv2.IMREAD_GRAYSCALE)
+    print(my_img)
+    cv2.imshow('My image', my_img)
+    cv2.waitKey(0)
+
+    # sleep(1000)
 
     # Create a socket with a 1s timeout
     clientSock = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
     clientSock.settimeout(1.0)
 
     # Send data to client
-    print('Ping %d %s' % (1,Message.decode()))
+    # print('Ping %d %s' % (1,Message.decode()))
 
     while True:
          # Send the message using the clientSock
-        clientSock.sendto(Message, (UDP_IP_ADDRESS, UDP_PORT_NO))
+        # clientSock.sendto(Message, (UDP_IP_ADDRESS, UDP_PORT_NO))
+        clientSock.sendto(my_img, (UDP_IP_ADDRESS, UDP_PORT_NO))
 
         # Receive response
         print('waiting to receive')
@@ -47,9 +56,9 @@ def ClientSend(destination_IP, destination_port):
             continue
         break
 
-    message = data[0]
+    img = data[0]
     address = data[1]
-    print('client received "%s"' % message.decode())
+    print('client received "%s"' % img)
 
     # Close the socket
     print('closing socket')
@@ -70,11 +79,11 @@ def ClientReceive(username, source_IP, source_port):
         address = connection[1]
 
         # Set message to the data to be sent back
-        messageA = str.encode("PHOTO.jpeg")
+        my_img = cv2.imread("pixil-frame-0.png", cv2.IMREAD_GRAYSCALE)
 
         # The server responds
-        print("                                      "+ str(username) + ": " +str(messageA.decode()))
-        serverSocket.sendto(messageA, address)
+        print("                                      "+ str(username) + ": " + str(my_img))
+        serverSocket.sendto(my_img, address)
 
 def Header():
 
